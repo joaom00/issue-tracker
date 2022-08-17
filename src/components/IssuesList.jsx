@@ -5,15 +5,19 @@ import fetchWithError from "../helpers/fetchWithError";
 
 export default function IssuesList({ labels, status }) {
   const [searchValue, setSearchValue] = React.useState("");
-  const issuesQuery = useQuery(["issues", { labels, status }], () => {
+  const issuesQuery = useQuery(["issues", { labels, status }], ({ signal }) => {
     const statusString = status ? `&status=${status}` : "";
     const labelsString = labels.map((label) => `labels[]=${label}`).join("&");
-    return fetchWithError(`/api/issues?${labelsString}${statusString}`);
+    return fetchWithError(`/api/issues?${labelsString}${statusString}`, {
+      signal,
+    });
   });
   const searchQuery = useQuery(
     ["issues", "search", searchValue],
-    () =>
-      fetch(`/api/search/issues?q=${searchValue}`).then((res) => res.json()),
+    ({ signal }) =>
+      fetch(`/api/search/issues?q=${searchValue}`, { signal }).then((res) =>
+        res.json()
+      ),
     { enabled: Boolean(searchValue) }
   );
 

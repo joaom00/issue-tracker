@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
-import { useQueries, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { IssueHeader } from "./IssueHeader";
 import { useUserData } from "../helpers/useUserData";
 import { relativeDate } from "../helpers/relativeDate";
 
 function useIssueData(issueNumber) {
-  return useQuery(["issues", issueNumber], () =>
-    fetch(`/api/issues/${issueNumber}`).then((res) => res.json())
+  return useQuery(["issues", issueNumber], ({ signal }) =>
+    fetch(`/api/issues/${issueNumber}`, { signal }).then((res) => res.json())
   );
 }
 
 function useIssueComments(issueNumber) {
-  return useQuery(["issues", issueNumber, "comments"], () => {
-    return fetch(`/api/issues/${issueNumber}/comments`).then((res) =>
-      res.json()
+  return useQuery(["issues", issueNumber, "comments"], ({ signal }) => {
+    return fetch(`/api/issues/${issueNumber}/comments`, { signal }).then(
+      (res) => res.json()
     );
   });
 }
