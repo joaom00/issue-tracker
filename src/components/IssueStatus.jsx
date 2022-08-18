@@ -39,6 +39,7 @@ export default function IssueStatus({ status, issueNumber }) {
       },
     }
   );
+
   return (
     <div className="issue-options">
       <div>
