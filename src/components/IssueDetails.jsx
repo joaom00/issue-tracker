@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { IssueHeader } from "./IssueHeader";
 import IssueStatus from "./IssueStatus";
 import IssueAssignment from "./IssueAssignment";
+import IssueLabels from "./IssueLabels";
 import { useUserData } from "../helpers/useUserData";
 import { relativeDate } from "../helpers/relativeDate";
 
@@ -75,6 +76,10 @@ export default function IssueDetails() {
               />
               <IssueAssignment
                 assignee={issueQuery.data.assignee}
+                issueNumber={issueQuery.data.number.toString()}
+              />
+              <IssueLabels
+                labels={issueQuery.data.labels}
                 issueNumber={issueQuery.data.number.toString()}
               />
             </aside>
