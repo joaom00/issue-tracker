@@ -12,7 +12,6 @@ export function StatusSelect({ value, onChange, noEmptyOption = false }) {
       {noEmptyOption ? null : (
         <option value="">Select a status to filter</option>
       )}
-      <option value="">Select a status to filter</option>
       {possibleStatus.map((status) => (
         <option key={status.id} value={status.id}>
           {status.label}

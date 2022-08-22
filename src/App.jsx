@@ -9,7 +9,9 @@ function App() {
   return (
     <div className="App">
       {!isRootPath ? (
-        <Link to="/">Back to Issues List</Link>
+        <Link to="/" className="back-link">
+          Back to Issues List
+        </Link>
       ) : (
         <span>&nbsp;</span>
       )}
