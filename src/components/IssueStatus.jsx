@@ -47,7 +47,7 @@ export default function IssueStatus({ status, issueNumber }) {
         <StatusSelect
           noEmptyOption
           value={status}
-          onChange={(event) => setStatus.mutate(event.currentTarget.value)}
+          onChange={(value) => setStatus.mutate(value)}
         />
       </div>
     </div>

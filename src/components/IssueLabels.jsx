@@ -2,10 +2,10 @@ import React from "react";
 import { useQueryClient, useMutation } from "react-query";
 import { GoGear } from "react-icons/go";
 import { useLabelData } from "../helpers/useLabelData";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export default function IssueLabels({ labels, issueNumber }) {
   const labelsQuery = useLabelData();
-  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const queryClient = useQueryClient();
   const setLabels = useMutation(
@@ -75,32 +75,34 @@ export default function IssueLabels({ labels, issueNumber }) {
               );
             })}
       </div>
-      <GoGear
-        onClick={() =>
-          !labelsQuery.isLoading &&
-          setMenuOpen((currentMenuOpen) => !currentMenuOpen)
-        }
-      />
-      {menuOpen && (
-        <div className="picker-menu labels">
-          {labelsQuery.data?.map((label) => {
-            const selected = labels.includes(label.id);
-            return (
-              <div
-                key={label.id}
-                className={selected ? "selected" : ""}
-                onClick={() => setLabels.mutate(label.id)}
-              >
-                <span
-                  className="label-dot"
-                  style={{ backgroundColor: label.color }}
-                />
-                {label.name}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger
+          className="DropdownMenuTrigger"
+          disabled={labelsQuery.isLoading}
+        >
+          <GoGear />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content className="DropdownMenuContent">
+            {labelsQuery.data?.map((label) => {
+              const selected = labels.includes(label.id);
+              return (
+                <DropdownMenu.Item
+                  key={label.id}
+                  className={`${selected ? "selected" : ""} DropdownMenuItem`}
+                  onSelect={() => setLabels.mutate(label.id)}
+                >
+                  <span
+                    className="label-dot"
+                    style={{ backgroundColor: label.color }}
+                  />
+                  {label.name}
+                </DropdownMenu.Item>
+              );
+            })}
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
     </div>
   );
 }

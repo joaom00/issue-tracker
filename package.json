@@ -7,6 +7,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.1",
+    "@radix-ui/react-select": "^1.1.2",
     "@uidotdev/react-query-api": "^0.1.18",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

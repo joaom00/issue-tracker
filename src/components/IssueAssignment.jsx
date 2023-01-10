@@ -2,6 +2,7 @@ import React from "react";
 import { GoGear } from "react-icons/go";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useUserData } from "../helpers/useUserData";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export default function IssueAssignment({ assignee, issueNumber }) {
   const queryClient = useQueryClient();
@@ -48,8 +49,6 @@ export default function IssueAssignment({ assignee, issueNumber }) {
     }
   );
 
-  const [menuOpen, setMenuOpen] = React.useState(false);
-
   return (
     <div className="issue-options">
       <div>
@@ -61,22 +60,25 @@ export default function IssueAssignment({ assignee, issueNumber }) {
           </div>
         )}
       </div>
-      <GoGear
-        onClick={() =>
-          !usersQuery.isLoading &&
-          setMenuOpen((currentMenuOpen) => !currentMenuOpen)
-        }
-      />
-      {menuOpen && (
-        <div className="picker-menu">
-          {usersQuery.data?.map((user) => (
-            <div key={user.id} onClick={() => setAssignment.mutate(user.id)}>
-              <img src={user.profilePictureUrl} />
-              {user.name}
-            </div>
-          ))}
-        </div>
-      )}
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger className="DropdownMenuTrigger">
+          <GoGear />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content className="DropdownMenuContent" align="end">
+            {usersQuery.data?.map((user) => (
+              <DropdownMenu.Item
+                key={user.id}
+                className="DropdownMenuItem"
+                onSelect={() => setAssignment.mutate(user.id)}
+              >
+                <img src={user.profilePictureUrl} />
+                {user.name}
+              </DropdownMenu.Item>
+            ))}
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
     </div>
   );
 }
